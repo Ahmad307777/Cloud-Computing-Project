@@ -1,0 +1,124 @@
+/* Premium, beautiful podcast app styling */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container {
+    max-width: 540px;
+    margin: 48px auto;
+    background: rgba(255,255,255,0.20);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255,255,255,0.20);
+    box-shadow: 0 4px 24px rgba(67,206,162,0.12);
+    padding: 36px 32px 32px 32px;
+    position: relative;
+    z-index: 2;
+}
+h1 {
+    text-align: center;
+    font-size: 2.6rem;
+    margin-bottom: 32px;
+    color: #185a9d;
+    font-weight: 700;
+    color: #764ba2;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 12px rgba(118, 75, 162, 0.10);
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+input[type="text"], input[type="file"], textarea {
+    padding: 14px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1.07rem;
+    background: rgba(255,255,255,0.90);
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 6px 0 rgba(67,206,162,0.04);
+}
+input[type="text"]:focus, textarea:focus {
+    border: 1.5px solid #43cea2;
+    outline: none;
+    box-shadow: 0 2px 12px 0 rgba(67,206,162,0.10);
+}
+input[type="submit"], button, a.button {
+    background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    box-shadow: 0 2px 14px 0 rgba(118, 75, 162, 0.10);
+    letter-spacing: 1px;
+    display: inline-block;
+}
+input[type="submit"]:hover, button:hover, a.button:hover {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 24px 0 rgba(118, 75, 162, 0.18);
+    transform: translateY(-2px) scale(1.03);
+}
+ul {
+    list-style: none;
+    padding: 0;
+}
+ul li {
+    background: rgba(255,255,255,0.75);
+    margin-bottom: 16px;
+    padding: 18px 18px 14px 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px 0 rgba(118, 75, 162, 0.07);
+    font-size: 1.08rem;
+    position: relative;
+}
+ul li strong {
+    color: #764ba2;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+ul li em {
+    color: #667eea;
+    font-size: 1.01rem;
+    font-style: italic;
+}
+a {
+    color: #764ba2;
+    text-decoration: none;
+    font-weight: 500;
+}
+a:hover {
+    text-decoration: underline;
+    color: #667eea;
+}
+::-webkit-scrollbar {
+    width: 8px;
+    background: #e0c3fc;
+}
+::-webkit-scrollbar-thumb {
+    background: #764ba2;
+    border-radius: 8px;
+}
+@media (max-width: 700px) {
+    .container {
+        padding: 14px 2px 14px 2px;
+        max-width: 98vw;
+    }
+    h1 {
+        font-size: 1.4rem;
+    }
+}
+
