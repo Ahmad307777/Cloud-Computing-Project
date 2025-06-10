@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listener Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { width: 60%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Listener Analytics</h1>
+    <table>
+        <tr>
+            <th>Podcast</th>
+            <th>Number of Listens</th>
+        </tr>
+        {% for stat in analytics %}
+        <tr>
+            <td><a href="{{ url_for('podcast_detail', filename=stat.filename) }}">{{ stat.title }}</a></td>
+            <td>{{ stat.listen_count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>

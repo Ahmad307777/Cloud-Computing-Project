@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PodcastHub | Discover Podcasts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #4f46e5 0%, #10b981 100%);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .podcast-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .podcast-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        .play-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.05);
+            background-color: #4f46e5;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.9) 0%, rgba(16, 185, 129, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar text-white py-4 px-6 lg:px-12">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-podcast text-2xl"></i>
+                <span class="text-xl font-bold">PodcastHub</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="{{ url_for('index') }}" class="hover:text-yellow-200 font-medium">Home</a>
+                <a href="{{ url_for("list_podcasts") }}" class="hover:text-yellow-200">Podcast</a>
+                <a href="{{ url_for("feedback") }}" class="hover:text-yellow-200">Feedback</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero text-white py-16 px-6 lg:px-0">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Discover Amazing Podcasts</h1>
+            <p class="text-xl max-w-2xl mx-auto mb-8">Listen to inspiring stories, learn new things, and enjoy quality content from creators worldwide.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-indigo-600 hover:bg-gray-100 px-6 py-3 rounded-full font-bold">
+                    Explore Now
+                </button>
+                <button class="border-2 border-white hover:bg-white/10 px-6 py-3 rounded-full font-bold">
+                    How It Works
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto py-12 px-6 lg:px-8">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Featured Podcasts</h2>
+            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">View All</a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for podcast in podcasts %}
+            <div class="podcast-card bg-white rounded-xl overflow-hidden">
+                <div class="h-48 bg-gradient-to-r from-indigo-500 to-emerald-500 flex items-center justify-center">
+                    <i class="fas fa-headphones text-white text-6xl"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">{{ podcast.title }}</h3>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">{{ podcast.description }}</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center text-gray-500 text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span>25 min</span>
+                        </div>
+                        <a href="{{ url_for('podcast_detail', filename=podcast.filename) }}" 
+                           class="play-btn bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full flex items-center">
+                            <i class="fas fa-play mr-2"></i>
+                            Play
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Call to Action -->
+    <section class="bg-indigo-50 py-16 px-6">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Ready to start listening?</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-8">Join thousands of listeners enjoying our podcasts every day. Download our app or listen directly in your browser.</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full font-bold flex items-center justify-center">
+                    <i class="fab fa-apple mr-2 text-xl"></i>
+                    App Store
+                </button>
+                <button class="bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-full font-bold flex items-center justify-center">
+                    <i class="fab fa-google-play mr-2 text-xl"></i>
+                    Google Play
+                </button>
+                <button class="border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 px-8 py-3 rounded-full font-bold">
+                    Listen Online
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer text-white py-12 px-6">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-podcast text-2xl"></i>
+                        <span class="text-xl font-bold">PodcastHub</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">The best platform to discover and listen to podcasts from around the world.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-spotify"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Explore</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Categories</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Popular</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">New Releases</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Featured</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Terms</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Privacy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Cookies</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Copyright</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 PodcastHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Podcast | PodcastHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .upload-card {
+            background: rgba(255, 255, 255, 0.20);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+        
+        .upload-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .upload-btn {
+            background: linear-gradient(90deg, #ffe082 0%, #43cea2 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-upload-input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+        
+        .file-upload-label {
+            display: block;
+            padding: 1rem;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-label:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <i class="fas fa-podcast me-2" style="font-size: 1.8rem;"></i>
+                <span class="fw-bold" style="font-size: 1.5rem;">PodcastHub</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('feedback')}}">Feedbacks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('list_podcasts') }}">Podcast</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./upload">Upload</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="upload-card p-4 p-md-5 rounded-4 shadow">
+                    <div class="text-center mb-5">
+                        <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                        <h1 class="fw-bold mb-3" style="color: #fff; font-size: 2.5rem;">Upload Your Podcast</h1>
+                        <p class="lead">Share your voice with the world</p>
+                    </div>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <input type="text" name="title" class="form-control form-control-lg py-3" placeholder="Podcast Title" required style="border-radius: 12px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff;">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <textarea name="description" class="form-control form-control-lg py-3" placeholder="Description" rows="4" required style="border-radius: 12px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff;"></textarea>
+                        </div>
+                        
+                        <div class="mb-4 file-upload">
+                            <input type="file" name="file" id="file" class="file-upload-input" required>
+                            <label for="file" class="file-upload-label">
+                                <i class="fas fa-file-audio me-2"></i>
+                                <span id="file-name">Choose podcast file or drag here</span>
+                                <div class="small mt-2">MP3, WAV, or AAC (Max 50MB)</div>
+                            </label>
+                        </div>
+                        
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn upload-btn btn-lg fw-bold py-3 rounded-pill">
+                                <i class="fas fa-upload me-2"></i> Upload Podcast
+                            </button>
+                            <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-lg rounded-pill">
+                                <i class="fas fa-arrow-left me-2"></i> Back to Home
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-5 mt-5" style="background: rgba(0,0,0,0.2);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="fw-bold mb-3">PodcastHub</h5>
+                    <p>The best platform to discover and share podcasts from creators worldwide.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-spotify"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Explore</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white">Featured</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Popular</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Categories</a></li>
+                        <li><a href="#" class="text-white">New Releases</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="fw-bold mb-3">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white">About</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Careers</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Blog</a></li>
+                        <li><a href="#" class="text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="fw-bold mb-3">Legal</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white">Terms</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Privacy</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Cookies</a></li>
+                        <li><a href="#" class="text-white">Copyright</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h5 class="fw-bold mb-3">Get the App</h5>
+                    <div class="d-flex flex-column">
+                        <a href="#" class="btn btn-dark btn-sm mb-2 rounded-pill">
+                            <i class="fab fa-apple me-1"></i> App Store
+                        </a>
+                        <a href="#" class="btn btn-dark btn-sm rounded-pill">
+                            <i class="fab fa-google-play me-1"></i> Play Store
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p class="mb-0">© 2023 PodcastHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Display selected file name
+        document.getElementById('file').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Choose podcast file or drag here';
+            document.getElementById('file-name').textContent = fileName;
+        });
+        
+        // Drag and drop functionality
+        const fileUploadLabel = document.querySelector('.file-upload-label');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileUploadLabel.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileUploadLabel.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileUploadLabel.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            fileUploadLabel.style.borderColor = '#fff';
+            fileUploadLabel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+        }
+        
+        function unhighlight() {
+            fileUploadLabel.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            fileUploadLabel.style.backgroundColor = 'transparent';
+        }
+        
+        fileUploadLabel.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            document.getElementById('file').files = files;
+            document.getElementById('file-name').textContent = files[0].name;
+        }
+    </script>
+</body>
+</html>
